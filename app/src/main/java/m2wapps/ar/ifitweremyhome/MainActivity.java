@@ -1,6 +1,7 @@
 package m2wapps.ar.ifitweremyhome;
 
 
+import android.app.ActionBar;
 import android.net.Uri;
 import android.os.StrictMode;
 
@@ -9,7 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.widget.ImageView;
 
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, CompareFragment.OnFragmentInteractionListener {
