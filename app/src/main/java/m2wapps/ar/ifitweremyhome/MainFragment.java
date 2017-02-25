@@ -2,6 +2,7 @@ package m2wapps.ar.ifitweremyhome;
 
 import android.content.Context;
 import android.database.MatrixCursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,14 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,21 +46,6 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +58,14 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         pais1 = (SearchView) view.findViewById(R.id.pais1);
         pais2 = (SearchView) view.findViewById(R.id.pais2);
+        int id;
+         id = pais1.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView ;
+        textView = (TextView) pais1.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        id = pais2.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        textView = (TextView) pais2.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         pais1.setIconifiedByDefault(false);
         pais2.setIconifiedByDefault(false);
         compareBtn = (Button) view.findViewById(R.id.compareBtn);
