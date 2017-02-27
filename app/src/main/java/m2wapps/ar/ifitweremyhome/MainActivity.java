@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        setFragment(1);
+        if(position == 0) {
+            setFragment(1);
+        }else{
+            setFragment(0);
+        }
     }
 }

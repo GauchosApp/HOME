@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+
 
 
 /**
@@ -40,6 +41,7 @@ public class CompareFragment extends Fragment {
     private ExpandableListAdapter listAdapter;
     private ArrayList<String> listDataHeader;
     private HashMap<String, String> listDataChild;
+    private Button again;
 
     public CompareFragment() {
         // Required empty public constructor
@@ -60,6 +62,13 @@ public class CompareFragment extends Fragment {
         texto = (TextView) view.findViewById(R.id.texto);
         texto.setText("If "+ MainActivity.countriesCache.get(0) +" were your home instead of "+ MainActivity.countriesCache.get(1) + " you would...");
         lista = (ExpandableListView) view.findViewById(R.id.expandable);
+        again = (Button) view.findViewById(R.id.again);
+        again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onFragmentInteraction(null);
+            }
+        });
         // Inflate the layout for this fragment
         hiloInfo();
         return view;
