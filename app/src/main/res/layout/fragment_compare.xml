@@ -9,7 +9,7 @@
 
     <TextView
         android:textColor="@color/colorPrimaryDark"
-        android:text="If Portugal were your home instead of Argentina you would..."
+        android:text="@string/compare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/texto"
@@ -19,5 +19,7 @@
 
     <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/expandable"
+        android:paddingTop="@dimen/activity_vertical_margin" />
 </LinearLayout>

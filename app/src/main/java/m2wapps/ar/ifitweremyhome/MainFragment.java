@@ -33,10 +33,8 @@ public class MainFragment extends Fragment {
     private ArrayList<Pais> paises;
     private ArrayList<String> auxNombres, auxNombres2, auxDigits, auxDigits2;
     private String digit1, digit2, name1, name2;
-    private String url = "https://www.ifitweremyhome.com/";
     private SearchView pais1, pais2;
     private SimpleCursorAdapter mAdapter, mAdapter2;
-    private Button compareBtn;
     // TODO: Rename and change types of parameters
 
 
@@ -49,6 +47,13 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pais1.setQuery(name1,true);
+        pais2.setQuery(name2,true);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MainFragment extends Fragment {
         textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         pais1.setIconifiedByDefault(false);
         pais2.setIconifiedByDefault(false);
-        compareBtn = (Button) view.findViewById(R.id.compareBtn);
+        Button compareBtn = (Button) view.findViewById(R.id.compareBtn);
         compareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +114,7 @@ public class MainFragment extends Fragment {
     private void getPaises(){
         paises = new ArrayList<>();
         try {
+            String url = "https://www.ifitweremyhome.com/";
             Document doc = Jsoup.connect(url).get();
             Elements aux = doc.getElementsByClass("country_cloud");
             Elements countries = aux.select("a");

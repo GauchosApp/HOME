@@ -2,11 +2,13 @@ package m2wapps.ar.ifitweremyhome;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -15,6 +17,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -27,20 +33,19 @@ import java.io.IOException;
 public class CompareFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
-    private Pais pais1, pais2;
     private String url = "https://www.ifitweremyhome.com/compare/";
     private TextView texto ;
+    private ArrayList<Datos> datos;
+    private ExpandableListView lista;
+    private ExpandableListAdapter listAdapter;
+    private ArrayList<String> listDataHeader;
+    private HashMap<String, String> listDataChild;
+
     public CompareFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
 
-     * @return A new instance of fragment CompareFragment.
-     */
 
 
     @Override
@@ -54,8 +59,9 @@ public class CompareFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_compare, container, false);
         texto = (TextView) view.findViewById(R.id.texto);
         texto.setText("If "+ MainActivity.countriesCache.get(0) +" were your home instead of "+ MainActivity.countriesCache.get(1) + " you would...");
+        lista = (ExpandableListView) view.findViewById(R.id.expandable);
         // Inflate the layout for this fragment
-      //  getInfo();
+        hiloInfo();
         return view;
     }
 
@@ -92,21 +98,73 @@ public class CompareFragment extends Fragment {
     }
     private void getInfo(){
         try {
+            datos = new ArrayList<>();
             String urlAux = url + MainActivity.digitsCache.get(0)+"/"+MainActivity.digitsCache.get(1);
             System.out.println(urlAux);
             Document doc = Jsoup.connect(urlAux).get();
-            /*Elements aux = doc.getElementsByClass("band3");
-            Elements aux2 = aux.select("div.content");
-            Elements aux3 = aux2.select("div#comparisons");
-            Elements countries = aux3.select("div.comparison_negative");*/
-            Elements countries = doc.select("div.band3 div.content div#comparisons div.comparison.negative");
-            for (Element e: countries){
-              //  paises.add(new Pais(e.text(),e.attr("data-iso2")));
-                System.out.println(e.html());
-            }
+            Elements negative = doc.select("div.band3 div.content div#comparisons div.comparison.negative");
+            Elements positive = doc.select("div.band3 div.content div#comparisons div.comparison.positive");
+            Elements neutral = doc.select("div.band3 div.content div#comparisons div.comparison.neutral");
+            Element detail;
+            Element explanation;
 
+            for (Element e: negative){
+                detail = e.getElementsByClass("detail").first();
+                explanation = e.getElementsByClass("explanation").first();
+               // System.out.println("negative: "+explanation.text());
+                datos.add(new Datos(0,detail.text(),explanation.text()));
+            }
+            for (Element e: positive){
+                detail = e.getElementsByClass("detail").first();
+                explanation = e.getElementsByClass("explanation").first();
+             //   System.out.println("positive: "+explanation.text());
+                datos.add(new Datos(1,detail.text(),explanation.text()));
+            }
+            for (Element e: neutral){
+                detail = e.getElementsByClass("detail").first();
+                explanation = e.getElementsByClass("explanation").first();
+             //   System.out.println("neutral: "+explanation.text());
+                datos.add(new Datos(2,detail.text(),explanation.text()));
+            }
+            Collections.shuffle(datos);
+           cargarAdapter();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    private void hiloInfo(){
+        class GetPartidos extends AsyncTask<Void,Void,String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+             //   showLoading();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+              //  hideLoading();
+                lista.setAdapter(listAdapter);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                getInfo();
+                return "";
+            }
+        }
+        GetPartidos  gi = new GetPartidos ();
+        gi.execute();
+    }
+    private void cargarAdapter(){
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+        for (Datos d : datos){
+            listDataHeader.add(d.getTitulo());
+            listDataChild.put(d.getTitulo(), d.getDetalle());
+        }
+        listAdapter = new ExpandableListAdapter(this.getContext(), listDataHeader, listDataChild);
+    }
+
 }

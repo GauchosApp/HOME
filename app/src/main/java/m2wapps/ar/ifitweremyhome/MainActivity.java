@@ -12,13 +12,12 @@ import android.os.Bundle;
 import android.util.SparseArray;
 
 
-
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, CompareFragment.OnFragmentInteractionListener {
     private MainFragment mainFragment;
     private CompareFragment compareFragment;
     public static SparseArray<String> digitsCache = new SparseArray<>(2);
     public static SparseArray<String> countriesCache = new SparseArray<>(2);
-
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         FragmentTransaction fragmentTransaction;
         switch (position) {
             case 0:
+                this.position = 0;
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 if (mainFragment == null) {
@@ -50,10 +50,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
                 if (compareFragment == null) {
                     compareFragment = new CompareFragment();
                 }
+                this.position = 1;
                 fragmentTransaction.replace(R.id.fragment, compareFragment);
                 fragmentTransaction.commit();
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (position == 1){
+            setFragment(0);
+         //   getFragmentManager().popBackStack();
+
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
     @Override
