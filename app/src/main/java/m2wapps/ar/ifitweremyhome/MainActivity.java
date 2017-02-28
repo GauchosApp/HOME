@@ -18,6 +18,10 @@ import android.util.SparseArray;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, CompareFragment.OnFragmentInteractionListener {
     private MainFragment mainFragment;
@@ -33,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 // Obtain the shared Tracker instance.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             mTracker = application.getDefaultTracker();
