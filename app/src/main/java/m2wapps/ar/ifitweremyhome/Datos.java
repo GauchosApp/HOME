@@ -5,7 +5,7 @@ package m2wapps.ar.ifitweremyhome;
  */
 
 class Datos {
-    //0 positivo, 1 negativo, 2 neutral
+    //1 positivo, 0 negativo, 2 neutral
     private int tipo;
     private String titulo, detalle;
     Datos(int tipo, String titulo, String detalle){
@@ -15,7 +15,7 @@ class Datos {
     }
 
 
-    public String getDetalle() {
+    String getDetalle() {
         return detalle;
     }
 
@@ -23,7 +23,7 @@ class Datos {
         this.detalle = detalle;
     }
 
-    public String getTitulo() {
+    String getTitulo() {
         return titulo;
     }
 
@@ -31,7 +31,7 @@ class Datos {
         this.titulo = titulo;
     }
 
-    public int getTipo() {
+    int getTipo() {
         return tipo;
     }
 

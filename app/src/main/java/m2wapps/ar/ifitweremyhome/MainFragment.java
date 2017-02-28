@@ -65,12 +65,12 @@ public class MainFragment extends Fragment {
         pais2 = (SearchView) view.findViewById(R.id.pais2);
         int id;
          id = pais1.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView ;
+     /*   TextView textView ;
         textView = (TextView) pais1.findViewById(id);
         textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         id = pais2.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         textView = (TextView) pais2.findViewById(id);
-        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));*/
         pais1.setIconifiedByDefault(false);
         pais2.setIconifiedByDefault(false);
         Button compareBtn = (Button) view.findViewById(R.id.compareBtn);

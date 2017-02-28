@@ -19,15 +19,16 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
     private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
     private List<Datos> datos;
+    // child data in format of header title, child title
     private HashMap<String, String> _listDataChild;
 
     ExpandableListAdapter(Context context, List<String> listDataHeader,
-                          HashMap<String, String> listChildData) {
+                          HashMap<String, String> listChildData, List<Datos> datos) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this.datos = datos;
     }
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
@@ -54,7 +55,13 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
-
+        if(datos.get(groupPosition).getTipo() == 0) {
+            txtListChild.setBackgroundColor(_context.getResources().getColor(R.color.negative));
+        }else  if(datos.get(groupPosition).getTipo() == 1) {
+            txtListChild.setBackgroundColor(_context.getResources().getColor(R.color.positive));
+        }else{
+            txtListChild.setBackgroundColor(_context.getResources().getColor(R.color.neutral));
+        }
         txtListChild.setText(childText);
         return convertView;
     }
@@ -93,7 +100,13 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-
+        if(datos.get(groupPosition).getTipo() == 0) {
+            lblListHeader.setBackgroundColor(_context.getResources().getColor(R.color.negative));
+        }else  if(datos.get(groupPosition).getTipo() == 1) {
+            lblListHeader.setBackgroundColor(_context.getResources().getColor(R.color.positive));
+        }else{
+            lblListHeader.setBackgroundColor(_context.getResources().getColor(R.color.neutral));
+        }
         return convertView;
     }
 

@@ -1,10 +1,13 @@
 package m2wapps.ar.ifitweremyhome;
 
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.StrictMode;
 
 
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -76,5 +79,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         }else{
             setFragment(0);
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+
+        System.out.println("entra: "+permsRequestCode);
+        boolean writeAccepted;
+        switch(permsRequestCode){
+            case 1:
+               writeAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
+                if (writeAccepted){
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{"android.permission.READ_EXTERNAL_STORAGE"},
+                        2);
+                }
+                break;
+            case 2:
+                writeAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
+                if (writeAccepted) {
+                    compareFragment.takeScreenshot();
+                }
+                break;
+
+        }
+
     }
 }
