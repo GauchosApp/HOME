@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "651509780544",
+    "project_id": "if-it-were-my-home"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651509780544:android:52de6ca87a24e68e",
+        "android_client_info": {
+          "package_name": "m2wapps.ar.ifitweremyhome"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSGsx-TrEhbrgmaQmlVL8thPcxDaQ4G00"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-70298705-6"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
