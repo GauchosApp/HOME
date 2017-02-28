@@ -10,7 +10,7 @@
 
     <TextView
         android:background="@color/colorPrimary"
-        android:text="@string/Desc"
+        android:text="@string/desc"
         android:textColor="@color/texto"
         android:layout_height="wrap_content"
         android:id="@+id/textDesc"
@@ -37,8 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:id="@+id/pais1"
-        android:icon="@mipmap/search"
-        />
+        android:icon="@mipmap/search" />
 
     <TextView
         android:textColor="@color/texto"
@@ -63,8 +62,6 @@
     <Button
         android:theme="@style/MyButton"
         android:textColor="@color/texto"
-        android:elevation="2dp"
-        android:translationZ="6dp"
         android:layout_margin="16dp"
         android:background="@color/colorPrimaryDark"
         android:text="@string/compare"
