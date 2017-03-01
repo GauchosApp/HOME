@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.0"
     defaultConfig {
         applicationId "m2wapps.ar.ifitweremyhome"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
+        versionCode 5
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    compile 'com.google.android.gms:play-services-analytics:10.2.0'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

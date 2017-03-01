@@ -217,53 +217,6 @@ public class CompareFragment extends Fragment {
         }
         listAdapter = new ExpandableListAdapter(this.getContext(), listDataHeader, listDataChild, datos);
     }
-  /*  protected void takeScreenshot() {
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-
-            // create bitmap screen capture
-         //   View v1 = getActivity().getWindow().getDecorView().getRootView().findViewById(R.id.principal);
-            View v1 = this.getView();
-            again.setVisibility(View.GONE);
-            share.setVisibility(View.GONE);
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-            again.setVisibility(View.VISIBLE);
-            share.setVisibility(View.VISIBLE);
-            File imageFile = new File(mPath);
-
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            System.out.println(mPath);
-            shareImage(mPath);
-        } catch (Throwable e) {
-            // Several error may come out with file handling or OOM
-            e.printStackTrace();
-        }
-    }
-    private void shareImage(String dir){
-        Uri uri = Uri.parse(dir);
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/jpg");
-
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        try {
-            startActivity(Intent.createChooser(intent, "Share to: "));
-        } catch (ActivityNotFoundException e) {
-            System.out.println("error");
-        }
-    }*/
     protected void takeScreenshot(){
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/ifitweremyhome/";
@@ -294,7 +247,7 @@ public class CompareFragment extends Fragment {
         share.setType("image/png");
 
         share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        share.putExtra(Intent.EXTRA_TEXT, "IFITWEREMYHOME - "+text);
+        share.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.app_name)+" - "+text);
 
         startActivity(Intent.createChooser(share, "Share To:"));
     }

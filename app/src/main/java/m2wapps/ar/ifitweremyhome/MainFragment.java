@@ -1,6 +1,8 @@
 package m2wapps.ar.ifitweremyhome;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -63,14 +65,6 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         pais1 = (SearchView) view.findViewById(R.id.pais1);
         pais2 = (SearchView) view.findViewById(R.id.pais2);
-        int id;
-         id = pais1.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-     /*   TextView textView ;
-        textView = (TextView) pais1.findViewById(id);
-        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        id = pais2.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        textView = (TextView) pais2.findViewById(id);
-        textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));*/
         pais1.setIconifiedByDefault(false);
         pais2.setIconifiedByDefault(false);
         Button compareBtn = (Button) view.findViewById(R.id.compareBtn);
@@ -78,12 +72,18 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    if(digit1 != null && digit2 != null) {
+                    if(pais1.getQuery().length() > 2 && pais2.getQuery().length() > 2) {
                         MainActivity.digitsCache.put(0,digit1);
                         MainActivity.digitsCache.put(1,digit2);
                         MainActivity.countriesCache.put(0,name1);
                         MainActivity.countriesCache.put(1,name2);
                         mListener.onFragmentInteraction(null);
+                    }else{
+                        new AlertDialog.Builder(getContext())
+                                .setTitle(getResources().getString(R.string.app_name))
+                                .setMessage("Please, fill the fields")
+                                .setCancelable(false)
+                                .setPositiveButton("OK",null).show();
                     }
                 }
             }

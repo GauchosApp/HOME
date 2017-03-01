@@ -1,7 +1,12 @@
 package m2wapps.ar.ifitweremyhome;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.StrictMode;
 
@@ -12,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -30,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public static SparseArray<String> countriesCache = new SparseArray<>(2);
     private int position;
     private Tracker mTracker;
-    private AnalyticsApplication application = (AnalyticsApplication) getApplication();
+    private AnalyticsApplication application;
+    private boolean isInternet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +43,44 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            mTracker = application.getDefaultTracker();
-            mTracker.setScreenName("Inicio");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
             StrictMode.setThreadPolicy(policy);
         }
-        setFragment(0);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Inicio");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        {
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null) {
+                isInternet = false;
+                if (!this.isFinishing()) {
+                    //show dialog
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage("Check your internet connection")
+                            .setCancelable(false)
+                            .setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    moveTaskToBack(true);
+                                }
+                            }).show();
+                }
+            }
+            else{
+                isInternet = true;
+            }
+        }
+        if(isInternet) {
+            setFragment(0);
+        }
     }
 
     public void setFragment(int position) {
@@ -59,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             case 0:
                 mTracker.send(new HitBuilders.EventBuilder()
                         .setCategory("Action")
-                        .setAction("Share")
+                        .setAction("Main")
                         .build());
                 this.position = 0;
                 fragmentManager = getSupportFragmentManager();
@@ -73,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             case 1:
                 mTracker.send(new HitBuilders.EventBuilder()
                         .setCategory("Action")
-                        .setAction("Share")
+                        .setAction("Compare")
                         .build());
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -109,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
     @Override
     public void onRequestPermissionsResult(int permsRequestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-
-        System.out.println("entra: "+permsRequestCode);
         boolean writeAccepted;
         switch(permsRequestCode){
             case 1:
@@ -124,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             case 2:
                 writeAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
                 if (writeAccepted) {
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("Compare")
+                            .build());
                     compareFragment.takeScreenshot();
                 }
                 break;
